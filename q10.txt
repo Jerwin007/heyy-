@@ -4,7 +4,23 @@ Q10: Configure a GitHub Actions workflow to automatically build and test a Pytho
 1. Project Files
 -----------------------------
 app.py
+
+def add(a, b):
+    return a + b
+
+def greet(name):
+    return f"Hello, {name}!"
+
+
 test_app.py
+
+from app import add, greet
+
+def test_add():
+    assert add(2, 3) == 5
+
+def test_greet():
+    assert greet("World") == "Hello, World!"
 
 -----------------------------
 2. Create Workflow File
@@ -27,18 +43,18 @@ jobs:
 
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup Python
       uses: actions/setup-python@v4
       with:
-        python-version: "3.9"
+        python-version: "3.11"
 
     - name: Install Dependencies
       run: pip install -r requirements.txt
 
     - name: Run Tests
-      run: python -m unittest discover
+      run: pytest test_app.py -v
 
 -----------------------------
 4. Push Code
